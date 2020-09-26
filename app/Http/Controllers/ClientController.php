@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\Http\Resources\Client as ClientResource;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller
 {
@@ -16,18 +18,9 @@ class ClientController extends Controller
     {
         $clients = Client::all();
     
-        return $this->sendResponse(ClientResource::collection($clients), 'Clients retrieved successfully.');
+        return ClientResource::collection($clients);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -41,7 +34,7 @@ class ClientController extends Controller
    
         $validator = Validator::make($input, [
             'name' => 'required',
-            'client_id' => 'required'
+            'email' => 'required'
         ]);
    
         if($validator->fails()){
@@ -50,7 +43,7 @@ class ClientController extends Controller
    
         $client = Client::create($input);
    
-        return $this->sendResponse(new ClientResource($product), 'Client created successfully.');
+        return $client;
   
     }
 
@@ -62,24 +55,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        $product = Client::find($id);
-  
-        if (is_null($product)) {
-            return $this->sendError('Client not found.');
-        }
-   
-        return $this->sendResponse(new ClientResource($product), 'Client retrieved successfully.');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Client $client)
-    {
-        //
+        return $client;
     }
 
     /**
@@ -93,20 +69,21 @@ class ClientController extends Controller
     {
         $input = $request->all();
    
-        $validator = Validator::make($input, [
-            'name' => 'required',
-            'detail' => 'required'
-        ]);
-   
-        if($validator->fails()){
-            return $this->sendError('Validation Error.', $validator->errors());       
+        if ($request->has('name')) {
+            $client->name = $input['name'];
         }
+        if ($request->has('email')) {
+            $client->email = $input['email'];
+        }
+        if ($request->has('cellphone')) {
+            $client->cellphone = $input['cellphone'];
+        }
+        if ($request->has('client_id')) {
+            $client->client_id = $input['client_id'];
+        }
+        $client->save();
    
-        $product->name = $input['name'];
-        $product->detail = $input['detail'];
-        $product->save();
-   
-        return $this->sendResponse(new ClientResource($product), 'Client updated successfully.');
+        return new ClientResource($client);
 
     }
 
@@ -118,8 +95,8 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        $product->delete();
+        $client->delete();
    
-        return $this->sendResponse([], 'Client deleted successfully.');
+        return 'Client deleted successfully.';
     }
 }

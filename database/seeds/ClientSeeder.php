@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Client;
 
 class ClientSeeder extends Seeder
 {
@@ -11,6 +12,8 @@ class ClientSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(App\Client::class, 50)->create()->each(function ($client) {
+        $client->save();
+    });
     }
 }

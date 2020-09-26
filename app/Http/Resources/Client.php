@@ -4,7 +4,7 @@ namespace App\Http\Resources;
    
 use Illuminate\Http\Resources\Json\JsonResource;
    
-class Cleint extends JsonResource
+class Client extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -18,6 +18,8 @@ class Cleint extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'client_id' => $this->client_id,
+            'email' => $this->email,
+            'cellphone' => $this->cellphone,
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
         ];
