@@ -17,6 +17,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/clients', function () {
+    return view('clients.index');
+});
+
 Route::get('/mqtt/mqtt', function () {
     return view('mqtt.mqtt');
 });
+
