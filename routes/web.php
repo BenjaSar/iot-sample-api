@@ -21,6 +21,10 @@ Route::get('/clients', function () {
     return view('clients.index');
 });
 
+Route::get('/grafico', function () {
+    return view('grafico.index');
+});
+
 Route::get('/mqtt/mqtt', function () {
     return view('mqtt.mqtt');
 });

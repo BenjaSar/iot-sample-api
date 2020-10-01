@@ -18,5 +18,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('client', ClientController::class);
+Route::apiResource('client', ClientController::class);
 
+Route::apiResource('serie', SerieController::class);
